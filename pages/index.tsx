@@ -74,6 +74,7 @@ const Home: NextPage = () => {
     console.log("Response is", response)
 
     if (!response.ok) {
+      const statusText = response.statusText ? response.statusText : "This site isn't valid. Maybe try another?"
       toast.error(response.statusText, {
         icon: '❌'
       })

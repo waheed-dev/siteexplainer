@@ -6,7 +6,6 @@ export const randomSiteData: string[] = [
     'https://basecamp.com',
     'https://jira.com',
     'https://airtable.com',
-    'https://zendesk.com',
     'https://confluence.atlassian.com',
     'https://hubspot.com',
     'https://infusionsoft.com',

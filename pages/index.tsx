@@ -266,9 +266,9 @@ const Home: NextPage = () => {
               AI-powered web app allows you to quickly and accurately summarize
               any website in just a few seconds
             </p>
-            <p className="text-slate-700 mt-5 dark:text-gray-300">
+            {/* <p className="text-slate-700 mt-5 dark:text-gray-300">
               5196 site summaries generated so far.
-            </p>
+            </p> */}
             <div className="max-w-xl w-full">
               <div className="flex mt-10 items-center space-x-3 ">
                 <div className={'dark:bg-gray-600 rounded-full p-1 mt-1 bg-gray-200 '}>
@@ -276,11 +276,11 @@ const Home: NextPage = () => {
                   <RiNumber1 className={''}/>
                 </div>
                 <p className="text-left font-medium">
-                  your website url{" "}
+                  confusing website url{" "}
                   <span className="text-slate-500">
-                  (or write a few sentences about yourself)
+                  {/* (or any blog or article you want summarized!) */}
                 </span>
-                  .
+                  {/* . */}
                 </p>
               </div>
               <textarea
@@ -289,7 +289,7 @@ const Home: NextPage = () => {
                   rows={4}
                   className="w-full rounded-md border-gray-300 shadow-sm focus:border-black dark:text-black focus:ring-black my-5"
                   placeholder={
-                    "e.g. Senior Developer Advocate @vercel. Tweeting about web development, AI, and React / Next.js. Writing nutlope.substack.com."
+                    "thislandingpagemakesnosense.com"
                   }
               />
               <div className="flex flex-col md:flex-row  md:gap-8">
@@ -297,7 +297,7 @@ const Home: NextPage = () => {
                     <button
                         className="bg-black rounded-full text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full md:w-1/2 dark:text-black dark:bg-gray-400"
                         onClick={(e) => generateSummary(e)}>
-                      Generate your bio &rarr;
+                      Explain &rarr;
                     </button>
                 )}
                 {loading && (
@@ -329,7 +329,7 @@ const Home: NextPage = () => {
                 toastOptions={{ duration: 2000 }}
             />
             <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
-            <ResizablePanel className={"bg-green-600"}>
+            <ResizablePanel>
               <AnimatePresence mode="wait">
                 <motion.div className="space-y-10 my-10">
                   {generatedSummary && (

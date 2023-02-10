@@ -8,7 +8,7 @@ export default function Footer() {
           <p className="font-bold hover:underline transition underline-offset-2 ml-1"></p>
           <p className="font-bold transition">
             Follow @michael_chomsky on{" "}
-            <Link href="" className="text-blue-600 hover:underline">
+            <Link href="https://twitter.com/michael_chomsky" className="text-blue-600 hover:underline">
               Twitter
             </Link>
           </p>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import React from "react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { BsMoonFill, BsSun } from "react-icons/bs";
@@ -47,15 +48,15 @@ export default function Header() {
     //   </div>
 
     // </header>
-    <div className="z-20 shadow-md w-full fixed top-0 left-0 md:bg-gray-300 md:bg-opacity-30">
+    <div className=" w-full">
       <div className="md:flex items-center justify-between py-4 md:px-10 px-7">
-        <div className="font-bold text-2xl cursor-pointer items-center text-gold">
+        <div className="font-bold flex direction-row text-2xl cursor-pointer items-center text-gold">
           <button>
             <Link href="/" className="flex items-center space-x-3">
               <TbWriting
                 className={"h-10 w-10 mt-2 text-gray-700 dark:text-white"}
               />
-              <h1 className="sm:text-4xl text-2xl font-bold ml-2 tracking-tight text-gray-700 dark:text-white">
+              <h1 className="sm:text-4xl text-2xl font-bold ml-2 tracking-tight text-black dark:text-white">
                 SiteExplainer
               </h1>
             </Link>
@@ -67,7 +68,7 @@ export default function Header() {
           className="text-3xl absolute z-20 right-8 top-6 cursor-pointer md:hidden  text-white">
           <button>
             {open ? (
-              <AiOutlineClose className="text-white dark:text-gray-700" />
+              <AiOutlineClose className="dark:text-white text-black" />
             ) : (
               <AiOutlineMenu className="text-black dark:text-white" />
             )}
@@ -75,40 +76,42 @@ export default function Header() {
         </div>
 
         <ul
-          className={`md:flex md:items-center items-end text- md:pb-0 pb-12 absolute md:static md:z-auto text-white md:bg-transparent bg-gold hover:text-gold z-10 left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in font-rubik bg-black dark:bg-white md:dark:bg-transparent ${
+          className={`md:flex md:items-center items-end text- md:pb-0 pb-12 absolute md:static md:z-auto text-white md:bg-transparent bg-gold hover:text-gold z-10 left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in font-rubik bg-gray-500 dark:bg-gray-500 md:dark:bg-transparent ${
             open ? "top-0" : "top-[-490px]"
           }`}>
           <div className="mt-4">
             <button className="md:hidden flex">
               <Link href="/" className="flex items-center space-x-3">
                 <TbWriting
-                  className={"h-10 w-10 mt-2 dark:text-gray-700 text-white"}
+                  className={"h-10 w-10 mt-2 dark:text-white text-black"}
                 />
-                <h1 className="sm:text-4xl text-2xl font-bold ml-2 tracking-tight dark:text-gray-700 text-white">
+                <h1 className="sm:text-4xl text-2xl font-bold ml-2 tracking-tight dark:text-white text-black">
                   SiteExplainer
                 </h1>
               </Link>
             </button>
           </div>
           <div className="flex md:flex-row gap-4 justify-around mt-8 md:mt-0 ">
-            <div className="flex text-4xl items-center text-center dark:text-black md:dark:text-white md:text-black ">
-              <FaLanguage className="" />
-            </div>
+            <button
+              className="flex text-4xl items-center text-center dark:text-black md:dark:text-white md:text-black"
+              disabled>
+              <FaLanguage className="dark:text-white md:text-gray-400" />
+            </button>
             <ContactUs />
             <div
               onClick={() => setOpen(false)}
-              className="flex justify-center border-2 rounded-full  border-white dark:border-black md:border-gray-700 md:dark:border-white">
+              className="flex justify-center border-2 rounded-full  dark:border-white md:border-gray-700 md:dark:border-white">
               {currentTheme === "dark" ? (
                 <button
-                  className="p-2 text-xl cursor-pointer dark:text-black md:dark:text-white"
+                  className="p-2 text-xl dark:text-white text-black cursor-pointer md:dark:text-white"
                   onClick={() => setTheme("light")}>
-                  <BsMoonFill />
+                  <BsMoonFill className={"dark:text-white text-black"} />
                 </button>
               ) : (
                 <button
-                  className="p-2 text-xl cursor-pointer md:text-gray-700"
+                  className="p-2 dark:text-red text-xl cursor-pointer md:text-gray-700 dark:text-white"
                   onClick={() => setTheme("dark")}>
-                  <BsSun />
+                  <BsSun className={" dark:text-white "} />
                 </button>
               )}
             </div>

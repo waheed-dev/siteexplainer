@@ -69,6 +69,9 @@ const Home: NextPage = () => {
     console.log("url is", fullUrl);
 	  const summary = await fetch('/api/getSummary', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
       	url: fullUrl,
 		  })
@@ -176,6 +179,24 @@ const Home: NextPage = () => {
     }
 
     console.log("url is", fullUrl);
+    console.log("url is", fullUrl);
+	  const summary = await fetch('/api/getSummary', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+      	url: fullUrl,
+		  })
+  	});
+    const summaryData = await summary.json();
+    console.table(summaryData);
+
+    if (summaryData !== null) {
+      setGeneratedSummary(summaryData.summary);
+      setLoading(false);
+      return;
+    }
     const response = await fetch("/api/generate", {
       method: "POST",
       headers: {
@@ -215,7 +236,7 @@ const Home: NextPage = () => {
       setGeneratedSummary((prev) => {
         console.log("summary is ", prev + chunkValue);
 
-        if (done && generateSummary.length >= 50) {
+        if (done && generatedSummary.length >= 50) {
           fetch("/api/postSummary", {
             method: "POST",
             headers: {

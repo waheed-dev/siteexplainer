@@ -134,7 +134,7 @@ const Home: NextPage = () => {
             },
             body: JSON.stringify({
               url: fullUrl,
-              summary: generatedSummary,
+              summary: prev + chunkValue,
             }),
           });
         }

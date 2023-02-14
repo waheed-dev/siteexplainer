@@ -72,7 +72,7 @@ import { prisma } from '../../lib/prisma'
 export default async function latestSites(req: any, res: any) {
   const url = req.body;
   try {
-  const site = await prisma.summary.findFirst({
+  const site = await prisma.page.findFirst({
     where: {
         url: url.site
       },

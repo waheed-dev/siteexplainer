@@ -101,7 +101,7 @@ const Home: NextPage = () => {
       const statusText = response.statusText
         ? response.statusText
         : "This site isn't valid. Maybe try another?";
-      toast.error(response.statusText, {
+      toast.error(statusText, {
         icon: "❌",
       });
       setLoading(false);
@@ -210,7 +210,10 @@ const Home: NextPage = () => {
     console.log("Response is", response);
 
     if (!response.ok) {
-      toast.error(response.statusText, {
+      const statusText = response.statusText
+        ? response.statusText
+        : "This site isn't valid. Maybe try another?";
+      toast.error(statusText, {
         icon: "❌",
       });
       setLoading(false);
@@ -297,7 +300,10 @@ const Home: NextPage = () => {
     console.log("Response is", response);
 
     if (!response.ok) {
-      toast.error(response.statusText, {
+      const statusText = response.statusText
+      ? response.statusText
+      : "This site isn't valid. Maybe try another?";
+      toast.error(statusText, {
         icon: "❌",
       });
       setLoading2(false);

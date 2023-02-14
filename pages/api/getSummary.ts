@@ -5,7 +5,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { url } = req.body;
   console.log(url);
 
-	const summary = await prisma.summary.findUnique({
+	const summary = await prisma.page.findUnique({
 		where: { url },
 	});
 

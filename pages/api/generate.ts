@@ -1,4 +1,4 @@
-import { Summary } from '@prisma/client'
+import { Page } from '@prisma/client'
 import { prisma } from '../../lib/prisma'
 import { OpenAIStream, OpenAIStreamPayload } from "../../utils/OpenAIStream";
 
@@ -22,6 +22,9 @@ const handler = async (req: Request): Promise<Response> => {
       siteText = await response.text();
       if (siteText.length > 200) {
         // The result is valid
+        if (siteText.length > 2000) {
+          siteText = siteText.substring(0,8000)
+        }
       } else {
         return new Response(null, {
           status: 400,
@@ -39,14 +42,21 @@ const handler = async (req: Request): Promise<Response> => {
     
     
   } else {
-    return new Response("No url in the request", { status: 400 });
+    return new Response(null, {
+      status: 400,
+      statusText: "Bad response"
+    });
   }
 
   const prompt = `You are given a website's entire content without any formatting, including extraneous text like 'home', 'login', and 'contact' etc. Ignore those sections and focus on the main content of the website. What is the website about and what are its intentions? Try to figure out the main content of the website, and explain it using simplified language that a 10-year-old would understand. DO NOT use existing text from the website, but explain it in your own words. Make not to leave out any information that might be pertinent to a reader.
 
   ${siteText}
 
-  Detailed summary of no more than 200 words:`
+  Detailed summary of no more than 200 words:
+  """
+  [insert]
+  """
+  `
 
   const payload: OpenAIStreamPayload = {
     model: "text-davinci-003",
@@ -58,6 +68,7 @@ const handler = async (req: Request): Promise<Response> => {
     max_tokens: 200,
     stream: true,
     n: 1,
+    suffix: "\"\"\""
   };
 
   const stream = await OpenAIStream(payload);

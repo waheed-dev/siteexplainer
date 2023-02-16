@@ -25,6 +25,19 @@ const Home: NextPage = () => {
   // console.log("Streamed response: ", generatedSummary);
   useEffect(() => {
     console.log("loaded");
+    fetchLatestSites();
+  }, []);
+
+  useEffect(() => {
+    if (randomizing) {
+      setLoading(false);
+      return () => { };
+    }
+  }, [loading]);
+
+
+  function fetchLatestSites() {
+    setLatestSites([]);
     fetch("/api/latestSites")
       .then((res) => res.json())
       .then((data) => {
@@ -34,19 +47,24 @@ const Home: NextPage = () => {
 
         console.log(data);
       });
-  }, []);
-
-  useEffect(() => {
-    if (randomizing) {
-      setLoading(false);
-      return () => {};
-    } 
-  }, [loading]);
-
+  }
 
   function handleLatestSiteClick(url: string) {
     setUrl(url);
     generateSummary(url);
+  }
+
+  const postSummary = (url: string, summary: string) => {
+    fetch("/api/postSummary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url: url,
+        summary,
+      }),
+    }).then(() => fetchLatestSites());
   }
 
   const generateSummary = async (recentURL: string = url) => {
@@ -80,15 +98,15 @@ const Home: NextPage = () => {
 
     console.log("url is", fullUrl);
     console.log("url is", fullUrl);
-	  const summary = await fetch('/api/getSummary', {
+    const summary = await fetch('/api/getSummary', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-      	url: fullUrl,
-		  })
-  	});
+        url: fullUrl,
+      })
+    });
     const summaryData = await summary.json();
     console.table(summaryData);
 
@@ -137,21 +155,13 @@ const Home: NextPage = () => {
       done = doneReading;
       const chunkValue = decoder.decode(value);
       setGeneratedSummary((prev) => {
-        console.log("summary is ", prev + chunkValue);
+        const newGeneratedSummary = prev + chunkValue;
+        console.log("summary is ", newGeneratedSummary);
 
-        if (done && generatedSummary.length >= 50) {
-          fetch("/api/postSummary", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              url: fullUrl,
-              summary: generatedSummary,
-            }),
-          });
+        if (done && newGeneratedSummary.length >= 50) {
+          postSummary(fullUrl, newGeneratedSummary);
         }
-        return prev + chunkValue;
+        return newGeneratedSummary;
       });
     }
 
@@ -238,7 +248,7 @@ const Home: NextPage = () => {
               {!loading && (
                 <button
                   className="custom-btn btn-3 text-lg font-semibold"
-                  onClick={(e) => { 
+                  onClick={(e) => {
                     e.preventDefault();
                     generateSummary();
                   }}

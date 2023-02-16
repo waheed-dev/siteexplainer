@@ -5,7 +5,7 @@ export default async function latestSites(req: any, res: { json: (arg0: Page[]) 
   const sites = await prisma.page.findMany({
     orderBy: { createdAt: 'desc' },
     take: 5,
-  })
+  });
 
-  res.json(sites)
+  res.json(sites);
 }

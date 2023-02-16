@@ -18,7 +18,7 @@ import Link from "next/link";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
+  const [randomizing, setRandomizing] = useState(false);
   const [url, setUrl] = useState("");
   const [generatedSummary, setGeneratedSummary] = useState<String>("");
   const [latestSites, setLatestSites] = useState<Array<any>>([]);
@@ -36,120 +36,20 @@ const Home: NextPage = () => {
       });
   }, []);
 
-  const generateSummary = async (e: any) => {
-    e.preventDefault();
-    setGeneratedSummary("");
-    setLoading(true);
-
-    const isValidURL = (str: string) => {
-      try {
-        new URL(str);
-        return true;
-      } catch (error) {
-        return false;
-      }
-    };
-
-    let fullUrl = url.trim();
-    if (!/^https?:\/\//i.test(fullUrl)) {
-      fullUrl = "https://" + fullUrl;
-    }
-    console.log(fullUrl);
-
-    if (!isValidURL(fullUrl)) {
-      console.error("Invalid URL provided.");
-      // display a toast
-      toast.error("Invalid URL provided", {
-        icon: "❌",
-      });
+  useEffect(() => {
+    if (randomizing) {
       setLoading(false);
-      return;
-    }
+      return () => {};
+    } 
+  }, [loading]);
 
-    console.log("url is", fullUrl);
-	  const summary = await fetch('/api/getSummary', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-      	url: fullUrl,
-		  })
-  	});
-    const summaryData = await summary.json();
-    console.table(summaryData);
 
-    if (summaryData !== null) {
-      setGeneratedSummary(summaryData.summary);
-      setLoading(false);
-      return;
-    }
-
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        url: fullUrl,
-      }),
-    });
-    console.log("Edge function returned.");
-    console.log("Response is", response);
-
-    if (!response.ok) {
-      const statusText = response.statusText
-        ? response.statusText
-        : "This site isn't valid. Maybe try another?";
-      toast.error(statusText, {
-        icon: "❌",
-      });
-      setLoading(false);
-      // throw new Error(response.statusText);
-    }
-
-    // This data is a ReadableStream
-    const data = response.body;
-    if (!data) {
-      setLoading(false);
-      return;
-    }
-
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-      setGeneratedSummary((prev) => {
-        console.log("summary is ", prev + chunkValue);
-
-        if (done && generatedSummary.length >= 50) {
-          fetch("/api/postSummary", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              url: fullUrl,
-              summary: prev + chunkValue,
-            }),
-          });
-        }
-        return prev + chunkValue;
-      });
-    }
-
-    setLoading(false);
-  };
   function handleLatestSiteClick(url: string) {
     setUrl(url);
-    generateSummaryURL(url);
+    generateSummary(url);
   }
 
-  const generateSummaryURL = async (recentURL: string) => {
+  const generateSummary = async (recentURL: string = url) => {
     setGeneratedSummary("");
     setLoading(true);
 
@@ -257,101 +157,12 @@ const Home: NextPage = () => {
 
     setLoading(false);
   };
-  const generateSummaryURL2 = async (recentURL: string) => {
-    setGeneratedSummary("");
-    setLoading2(true);
-
-    const isValidURL = (str: string) => {
-      try {
-        new URL(str);
-        return true;
-      } catch (error) {
-        return false;
-      }
-    };
-
-    let fullUrl = recentURL.trim();
-    if (!/^https?:\/\//i.test(fullUrl)) {
-      fullUrl = "https://" + fullUrl;
-    }
-    console.log(fullUrl);
-
-    if (!isValidURL(fullUrl)) {
-      console.error("Invalid URL provided.");
-      // display a toast
-      toast.error("Invalid URL provided", {
-        icon: "❌",
-      });
-      setLoading2(false);
-      return;
-    }
-
-    console.log("url is", fullUrl);
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        url: fullUrl,
-      }),
-    });
-    console.log("Edge function returned.");
-    console.log("Response is", response);
-
-    if (!response.ok) {
-      const statusText = response.statusText
-      ? response.statusText
-      : "This site isn't valid. Maybe try another?";
-      toast.error(statusText, {
-        icon: "❌",
-      });
-      setLoading2(false);
-
-      // throw new Error(response.statusText);
-    }
-
-    // This data is a ReadableStream
-    const data = response.body;
-    if (!data) {
-      setLoading2(false);
-      return;
-    }
-
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-      setGeneratedSummary((prev) => {
-        console.log("summary is ", prev + chunkValue);
-
-        if (done && generateSummary.length >= 50) {
-          fetch("/api/postSummary", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              url: fullUrl,
-              summary: generatedSummary,
-            }),
-          });
-        }
-        return prev + chunkValue;
-      });
-    }
-
-    setLoading2(false);
-  };
   function randomizeSite() {
+    setRandomizing(true);
     let randomValue =
       randomSiteData[Math.floor(Math.random() * randomSiteData.length)];
     setUrl(randomValue);
-    generateSummaryURL2(randomValue);
+    generateSummary(randomValue).then(() => setRandomizing(false));
   }
 
   return (
@@ -427,7 +238,11 @@ const Home: NextPage = () => {
               {!loading && (
                 <button
                   className="custom-btn btn-3 text-lg font-semibold"
-                  onClick={(e) => generateSummary(e)}>
+                  onClick={(e) => { 
+                    e.preventDefault();
+                    generateSummary();
+                  }}
+                >
                   <span>Explain &rarr;</span>
                 </button>
               )}
@@ -438,14 +253,14 @@ const Home: NextPage = () => {
                   <LoadingDots color="white" style="large" />
                 </button>
               )}
-              {!loading2 && (
+              {!randomizing && (
                 <button
                   className="custom-btn btn-7 text-md font-semibold"
                   onClick={randomizeSite}>
                   <span>Random site &rarr;</span>
                 </button>
               )}
-              {loading2 && (
+              {randomizing && (
                 <button
                   className="custom-btn btn-7 text-md font-semibold"
                   disabled>

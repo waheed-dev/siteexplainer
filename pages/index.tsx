@@ -292,7 +292,7 @@ const Home: NextPage = () => {
                   <>
                     <div>
                       <h2 className="sm:text-4xl dark:text-white text-3xl font-bold text-slate-900 mx-auto">
-                        Your generated bios
+                        Your generated summary
                       </h2>
                     </div>
                     <div className="space-y-8 dark:text-white flex flex-col items-center justify-center max-w-xl mx-auto">
@@ -302,7 +302,7 @@ const Home: NextPage = () => {
                           navigator.clipboard.writeText(
                             generatedSummary.toString()
                           );
-                          toast("Bio copied to clipboard", {
+                          toast("Summary copied to clipboard", {
                             icon: "✂️",
                           });
                         }}>

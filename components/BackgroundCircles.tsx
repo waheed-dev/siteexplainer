@@ -3,7 +3,7 @@ import { useId } from "react";
 const BackgroundCircles = () => {
   const id = useId();
   return (
-    <div className="">
+    <div className="mb-4">
       <svg
         viewBox="0 0 1026 1026"
         fill="none"

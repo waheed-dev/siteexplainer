@@ -347,7 +347,7 @@ const Home: NextPage = () => {
                                       key={`latest-site-${index}`}>
                                     <button
                                         onClick={() => handleLatestSiteClick(url)}
-                                        className="w-full md:px-3 px-1 md:py-4 py-3 border-[0.5px] font-semibold dark:border-gray-500 shadow-md  bg-gray-300 md:text-md text-sm dark:bg-[#1e293b] border-gray-100 rounded-xl flex flex-row text-black hover:bg-gray-200 dark:text-white
+                                        className="w-full  md:px-3 px-1 md:py-4 py-3 border-[0.5px] font-semibold dark:border-gray-500 shadow-md  bg-gray-300 md:text-md text-sm dark:bg-[#1e293b] border-gray-100 rounded-xl flex flex-row text-black hover:bg-gray-200 dark:text-white
                               ">
                                        <svg
                                 xmlns="http://www.w3.org/2000/svg"

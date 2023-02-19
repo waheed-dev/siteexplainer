@@ -42,14 +42,14 @@ const Home: NextPage = () => {
   function fetchLatestSites() {
     setLatestSites([]);
     fetch("/api/latestSites")
-      .then((res) => res.json())
-      .then((data) => {
-        let newLatestSites: String[] = [];
-        data.map((url: any) => newLatestSites.push(url.url));
-        setLatestSites(newLatestSites);
+        .then((res) => res.json())
+        .then((data) => {
+          let newLatestSites: String[] = [];
+          data.map((url: any) => newLatestSites.push(url.url));
+          setLatestSites(newLatestSites);
 
-        console.log(data);
-      });
+          console.log(data);
+        });
   }
 
   function handleLatestSiteClick(url: string) {
@@ -132,8 +132,8 @@ const Home: NextPage = () => {
 
     if (!response.ok) {
       const statusText = response.statusText
-        ? response.statusText
-        : "This site isn't valid. Maybe try another?";
+          ? response.statusText
+          : "This site isn't valid. Maybe try another?";
       toast.error(statusText, {
         icon: "❌",
       });
@@ -173,11 +173,10 @@ const Home: NextPage = () => {
   function randomizeSite() {
     setRandomizing(true);
     let randomValue =
-      randomSiteData[Math.floor(Math.random() * randomSiteData.length)];
+        randomSiteData[Math.floor(Math.random() * randomSiteData.length)];
     setUrl(randomValue);
     generateSummary(randomValue).then(() => setRandomizing(false));
   }
-
   return (
       <div className="dark:bg-[#111a31] bg-gray-50">
         <a href="mailto: contact@siteexplainer.com">
@@ -263,7 +262,11 @@ const Home: NextPage = () => {
                 {!loading && (
                     <button
                         className="bg-[#7721c1] md:w-1/3 w-full rounded-xl shadow-inner shadow-gray-400  duration-100 hover:bg-[#6813b2] hover:scale-105 py-3 text-lg font-semibold text-white text-center"
-                        onClick={(e) => generateSummary(e)}>
+                        onClick={(e) => {
+                          e.preventDefault();
+                          generateSummary();
+                        }}
+                    >
                       <span>Explain &rarr;</span>
                     </button>
                 )}
@@ -313,7 +316,7 @@ const Home: NextPage = () => {
                                 navigator.clipboard.writeText(
                                     generatedSummary.toString()
                                 );
-                                toast("Bio copied to clipboard", {
+                                toast("Summary copied to clipboard", {
                                   icon: "✂",
                                 });
                               }}>
@@ -346,7 +349,7 @@ const Home: NextPage = () => {
                                         onClick={() => handleLatestSiteClick(url)}
                                         className="w-full md:px-3 px-1 md:py-4 py-3 border-[0.5px] font-semibold dark:border-gray-500 shadow-md  bg-gray-300 md:text-md text-sm dark:bg-[#1e293b] border-gray-100 rounded-xl flex flex-row text-black hover:bg-gray-200 dark:text-white
                               ">
-                                      {/* <svg
+                                       <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
@@ -358,7 +361,7 @@ const Home: NextPage = () => {
                                   strokeLinejoin="round"
                                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                                 />
-                              </svg> */}
+                              </svg>
 
                                       {url}
                                     </button>

@@ -23,13 +23,13 @@ export default function Header() {
   return (
       <div className="w-full">
         <div className="md:flex items-center justify-between py-4 md:px-10 px-7">
-          <div className="font-bold flex direction-row text-2xl cursor-pointer items-center text-gold">
+          <div className="font-bold -mt-1 flex direction-row text-2xl cursor-pointer items-center text-gold">
             <button>
               <Link href="/" className="flex items-center space-x-3">
                 <TbWriting
-                    className={"h-10 w-10 mt-2 text-gray-700 dark:text-white"}
+                    className={"h-10 w-10  text-gray-700 dark:text-white"}
                 />
-                <h1 className="sm:text-4xl text-2xl font-bold ml-2 tracking-tight text-black dark:text-white">
+                <h1 className="sm:text-4xl text-2xl  font-bold ml-2 tracking-tight text-black dark:text-white">
                   SiteExplainer
                 </h1>
               </Link>
@@ -38,10 +38,10 @@ export default function Header() {
 
           <div
               onClick={() => setOpen(!open)}
-              className="text-3xl absolute z-20 right-8 top-6 cursor-pointer md:hidden  text-white">
+              className="text-3xl absolute z-20 right-8 top-12 cursor-pointer md:hidden  text-white">
             <button>
               {open ? (
-                  <AiOutlineClose className="dark:text-white text-black" />
+                  <AiOutlineClose className="text-white" />
               ) : (
                   <AiOutlineMenu className="text-black dark:text-white" />
               )}
@@ -49,16 +49,14 @@ export default function Header() {
           </div>
 
           <ul
-              className={`md:flex md:items-center items-end text- md:pb-0 pb-12 absolute md:static md:z-auto text-white md:bg-transparent bg-gold hover:text-gold z-10 left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in font-rubik bg-gray-500 dark:bg-gray-500 md:dark:bg-transparent ${
+              className={`md:flex md:items-center items-end md:pb-0 pb-12 absolute md:static md:z-auto text-white md:bg-transparent bg-gold hover:text-gold z-10 left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in font-rubik bg-gray-500 dark:bg-gray-500 md:dark:bg-transparent ${
                   open ? "top-0" : "top-[-490px]"
               }`}>
-            <div className="mt-4">
+            <div className="mt-8">
               <button className="md:hidden flex">
                 <Link href="/" className="flex items-center space-x-3">
-                  <TbWriting
-                      className={"h-10 w-10 mt-2 dark:text-white text-black"}
-                  />
-                  <h1 className="sm:text-4xl text-2xl font-bold ml-2 tracking-tight dark:text-white text-black">
+                  <TbWriting className={"h-10 w-10 mt-2 text-white "} />
+                  <h1 className="sm:text-4xl text-2xl font-bold ml-2 tracking-tight text-white">
                     SiteExplainer
                   </h1>
                 </Link>

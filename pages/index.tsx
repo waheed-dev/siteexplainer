@@ -180,13 +180,13 @@ const Home: NextPage = () => {
   return (
       <div className="dark:bg-[#111a31] bg-gray-50">
         <a href="mailto: contact@siteexplainer.com">
-        <div className="bg-[#7721c1] text-center hover:cursor-pointer font-semibold text-white w-full h-8 items-center z-10">
-          Build by @michael_chomsky & Sponsored By{" "}
-          <span className="text-white hover:cursor-pointer underline text-xl w-full">
-            [your product goes here]
+          <div className="text-xs md:text-sm bg-[#7721c1] text-center hover:cursor-pointer font-semibold text-white h-8 items-center z-10">
+            Build by @michael_chomsky & Sponsored By{" "}
+            <span className="text-white hover:cursor-pointer underline md:text-xl w-full">
+            [your product Name]
           </span>
-          👍
-        </div>
+            👍
+          </div>
         </a>
         <div>
           <Toaster />
